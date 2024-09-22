@@ -35,24 +35,41 @@ async function fetchGithubUserActivity(username: string): Promise<void> {
         const {type, repo} = event;
         switch(type){
             case 'PushEvent':
-                console.log(`Pushed ${event.payload.commits.length} commit(s) to ${repo.name}`);
+                console.log(`pushed ${event.payload.commits.length} commit(s) to ${repo.name}`);
                 break;
             case 'CreateEvent':
                 if(event.payload.ref_type==='repository'){
-                    console.log(`Created a new repository as ${repo.name}`);
+                    console.log(`created a new repository as ${repo.name}`);
                 }
                 else{
-                    console.log(`Created a new ${event.payload.ref_type} at ${repo.name}`);
+                    console.log(`created a new ${event.payload.ref_type} at ${repo.name}`);
                 }
                 break;
             case 'DeleteEvent':
-                console.log(`Deleted a ${event.payload.ref_name} at ${repo.name}`);
+                console.log(`deleted a ${event.payload.ref_name} at ${repo.name}`);
+                break;
+            case 'ForkEvent':
+                console.log(`forked at ${repo.name}`);
                 break;
             case 'WatchEvent':
-                console.log(`Starred ${repo.name} `);
+                console.log(`starred ${repo.name} `);
+                break;
+            case 'PullRequestEvent':
+                console.log(`${event.payload.action} a pull request at ${repo.name}`);
+            case 'PullRequestReviewEvent':
+                console.log(`${event.payload.action} a pull request review at ${repo.name}`);
+                break;
+            case 'IssueCommentEvent':
+                console.log(`${event.payload.action} an issue comment at ${repo.name}`);
+                break;
+            case 'PullRequestReviewCommentEvent':
+                console.log(`${event.payload.action} a pull request review comment at ${repo.name}`);
+                break;
+            case 'IssuesEvent':
+                console.log(`${event.payload.action} an issue at ${repo.name}`);
                 break;
             default:
-                console.log(`Performed ${type} in ${repo.name}`);
+                console.log(`performed ${type} in ${repo.name}`);
         }
     });
    }
